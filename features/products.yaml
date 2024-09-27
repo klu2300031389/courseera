@@ -1,0 +1,73 @@
+  # 1. Scenario to list all products
+  Scenario: List all products
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+      | 2  | Item2 | CategoryB | false     |
+    When I request the list of all products
+    Then I should see 2 products
+
+  # 2. Scenario to read a product by its ID
+  Scenario: Read a product by ID
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+      | 2  | Item2 | CategoryB | false     |
+    When I request the product with ID 1
+    Then I should see the product details:
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+
+  # 3. Scenario to update a product's details
+  Scenario: Update a product
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+    When I update the product with ID 1 to have the following details:
+      | name  | category  | available |
+      | NewItem1 | CategoryC | false     |
+    Then the product with ID 1 should have the updated details:
+      | id | name     | category  | available |
+      | 1  | NewItem1 | CategoryC | false     |
+
+  # 4. Scenario to delete a product
+  Scenario: Delete a product
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+    When I delete the product with ID 1
+    Then the product with ID 1 should no longer exist
+    And the total number of products should be 1
+
+  # 5. Scenario to search products by name
+  Scenario: Search products by name
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+      | 2  | Item2 | CategoryB | false     |
+    When I search for products with the name "Item1"
+    Then I should see 1 product:
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+
+  # 6. Scenario to search products by category
+  Scenario: Search products by category
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+      | 2  | Item2 | CategoryB | false     |
+    When I search for products in category "CategoryB"
+    Then I should see 1 product:
+      | id | name  | category  | available |
+      | 2  | Item2 | CategoryB | false     |
+
+  # 7. Scenario to search products by availability
+  Scenario: Search products by availability
+    Given the following products exist
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
+      | 2  | Item2 | CategoryB | false     |
+    When I search for products that are "available"
+    Then I should see 1 product:
+      | id | name  | category  | available |
+      | 1  | Item1 | CategoryA | true      |
